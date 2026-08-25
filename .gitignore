@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.idea/
+web/node_modules/
+web/.next/
+web/out/
+web/coverage/
+*.user
+*.suo
+.env.local
+.DS_Store
