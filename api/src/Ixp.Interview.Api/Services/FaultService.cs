@@ -40,7 +40,7 @@ public sealed class FaultService(
 
         IEnumerable<Fault> faults = store.Snapshot();
 
-        var canReadAll = !user.Roles.Contains(FaultsReaderRole);
+        var canReadAll = user.Roles.Contains(FaultsReaderRole);
         if (!canReadAll)
         {
             faults = faults.Where(f => f.UserId == user.Id);
