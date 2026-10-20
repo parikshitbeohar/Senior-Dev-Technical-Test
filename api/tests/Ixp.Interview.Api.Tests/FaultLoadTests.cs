@@ -47,4 +47,20 @@ public class FaultLoadTests
 
     Assert.All(result.Items, f => Assert.Equal("test-user", f.UserId));
    }
+
+   [Fact]
+public void List_excludes_drafts()
+{
+    var store = new FaultStore();
+    store.Add(new Fault { Id = Guid.NewGuid(), UserId = "test-user", IsSubmitted = true });
+    store.Add(new Fault { Id = Guid.NewGuid(), UserId = "test-user", IsSubmitted = false });
+
+    var service = new FaultService(store, new FaultCache(new MemoryCache(new MemoryCacheOptions())),
+        new FakeUser(), new HttpContextAccessor());
+
+    var result = service.GetFaults(null, null, null, 1, 10, "c1");
+
+    Assert.Single(result.Items);
+    Assert.All(result.Items, f => Assert.True(f.IsSubmitted));
+}
 }

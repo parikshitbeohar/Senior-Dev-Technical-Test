@@ -38,7 +38,7 @@ public sealed class FaultService(
 
         SetCacheHeader("MISS");
 
-        IEnumerable<Fault> faults = store.Snapshot();
+        IEnumerable<Fault> faults = store.Snapshot().Where(item => item.IsSubmitted);
 
         var canReadAll = user.Roles.Contains(FaultsReaderRole);
         if (!canReadAll)
