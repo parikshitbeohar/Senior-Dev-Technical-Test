@@ -9,7 +9,7 @@ export function useCreateFault() {
   return useMutation({
     mutationFn: (request: CreateFaultRequest) => createFault(request),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['fault', 'list'] });
+      await queryClient.invalidateQueries({ queryKey: ['faults'] });
     },
   });
 }

@@ -104,6 +104,7 @@ public sealed class FaultService(
         };
 
         store.Add(fault);
+        cache.InvalidateLists();
         return fault;
     }
 

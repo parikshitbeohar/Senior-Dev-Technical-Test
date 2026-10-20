@@ -63,4 +63,31 @@ public void List_excludes_drafts()
     Assert.Single(result.Items);
     Assert.All(result.Items, f => Assert.True(f.IsSubmitted));
 }
+
+[Fact]
+public void Creating_a_fault_refreshes_the_cached_list()
+{
+    var store = new FaultStore();
+    var service = new FaultService(
+        store,
+        new FaultCache(new MemoryCache(new MemoryCacheOptions())),
+        new FakeUser(),
+        new HttpContextAccessor());
+
+   
+    var before = service.GetFaults(null, null, null, 1, 10, "c1");
+    Assert.Empty(before.Items);
+
+    service.CreateFault(new CreateFaultRequest
+    {
+        Category = "Lighting",
+        Area = "Platform 1",
+        Location = "LDS",
+        Description = "Light out",
+    });
+
+   
+    var after = service.GetFaults(null, null, null, 1, 10, "c2");
+    Assert.Single(after.Items);
+}
 }
