@@ -65,7 +65,7 @@ public sealed class FaultService(
             .OrderByDescending(f => f.SubmittedAtUtc ?? f.CreatedAtUtc)
             .ToList();
 
-        var start = page * pageSize;
+        var start = (page - 1) * pageSize;
         var items = ordered.Skip(start).Take(pageSize).ToList();
 
         var response = new FaultListResponse
