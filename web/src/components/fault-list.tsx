@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { FaultFilters } from '@/components/fault-filters';
 import { useFaults } from '@/lib/hooks/use-faults';
+import { useDebounce } from '@/lib/hooks/use-debounce';
 
 const PAGE_SIZE = 10;
 
@@ -16,10 +17,12 @@ export function FaultList() {
   });
   const [page, setPage] = useState(1);
 
+  const debouncedFilters = useDebounce(filters, 300);
+
   const query = useFaults({
-    location: filters.location || undefined,
-    from: filters.from || undefined,
-    to: filters.to || undefined,
+    location: debouncedFilters.location || undefined,
+    from: debouncedFilters.from || undefined,
+    to: debouncedFilters.to || undefined,
     page,
     pageSize: PAGE_SIZE,
   });
