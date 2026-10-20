@@ -102,6 +102,11 @@ button {
   display: inline-block;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .fault-list {
   list-style: none;
   padding: 0;

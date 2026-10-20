@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { FaultFilters } from '@/components/fault-filters';
 import { useFaults } from '@/lib/hooks/use-faults';
 
+const PAGE_SIZE = 10;
+
 export function FaultList() {
   const [filters, setFilters] = useState({
     location: '',
@@ -19,8 +21,11 @@ export function FaultList() {
     from: filters.from || undefined,
     to: filters.to || undefined,
     page,
-    pageSize: 10,
+    pageSize: PAGE_SIZE,
   });
+
+  const isNextDisabled = query.isError || !query.data || page >= Math.ceil(query.data.total / PAGE_SIZE);
+  const isPrevDisabled = page <= 1;
 
   return (
     <section>
@@ -72,6 +77,7 @@ export function FaultList() {
       <div className="row">
         <button
           type="button"
+          disabled={isPrevDisabled}
           onClick={() => setPage((p) => Math.max(1, p - 1))}
         >
           Prev
@@ -80,7 +86,7 @@ export function FaultList() {
           Page {page}
           {query.data ? ` · ${query.data.total} total` : ''}
         </span>
-        <button type="button" onClick={() => setPage((p) => p + 1)}>
+        <button disabled={isNextDisabled} type="button" onClick={() => setPage((p) => p + 1)}>
           Next
         </button>
       </div>
