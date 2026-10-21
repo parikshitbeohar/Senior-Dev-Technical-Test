@@ -9,6 +9,17 @@ describe('createFaultSchema', () => {
       description: '',
     });
 
-    expect(result.success).toBe(true);
+    expect(result.success).toBe(false);
+  });
+
+   it('rejects an whitespace description', () => {
+    const result = createFaultSchema.safeParse({
+      category: 'Lighting',
+      area: 'Platform 1',
+      location: 'LDS',
+      description: '    ',
+    });
+
+    expect(result.success).toBe(false);
   });
 });

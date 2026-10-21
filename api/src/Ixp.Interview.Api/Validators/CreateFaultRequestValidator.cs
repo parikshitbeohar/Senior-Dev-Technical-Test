@@ -10,6 +10,6 @@ public sealed class CreateFaultRequestValidator : AbstractValidator<CreateFaultR
         RuleFor(x => x.Category).NotEmpty();
         RuleFor(x => x.Area).NotEmpty();
         RuleFor(x => x.Location).NotEmpty();
-        RuleFor(x => x.Description);
+        RuleFor(x => x.Description).NotEmpty().MaximumLength(2000);
     }
 }

@@ -72,9 +72,12 @@ export function CreateFaultForm() {
       <label>
         Description
         <textarea {...form.register('description')} rows={4} />
+        {form.formState.errors.description && (
+          <span className="error">{form.formState.errors.description.message}</span>
+        )}
       </label>
 
-      <button type="submit">Save fault</button>
+      <button className="m-t-1" type="submit">Save fault</button>
 
       {create.isError && <p className="error">Save failed.</p>}
     </form>
