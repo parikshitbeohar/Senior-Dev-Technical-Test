@@ -81,7 +81,21 @@ public sealed class FaultService(
         return response;
     }
 
-    public Fault? GetFault(Guid id) => store.Get(id);
+   public Fault? GetFault(Guid id)
+   {
+    var fault = store.Get(id);
+    if (fault is null) return null;
+
+    var user = currentUser.User;
+
+    if (fault.UserId == user.Id) return fault;
+
+    
+    var canReadAll = user.Roles.Contains(FaultsReaderRole);
+    if (canReadAll && fault.IsSubmitted) return fault;
+
+    return null;
+   }
 
     public Fault CreateFault(CreateFaultRequest request)
     {

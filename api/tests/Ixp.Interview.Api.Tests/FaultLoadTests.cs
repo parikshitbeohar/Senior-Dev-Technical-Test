@@ -90,4 +90,17 @@ public void Creating_a_fault_refreshes_the_cached_list()
     var after = service.GetFaults(null, null, null, 1, 10, "c2");
     Assert.Single(after.Items);
 }
+
+[Fact]
+public void Inspector_cannot_get_another_users_fault()
+{
+    var store = new FaultStore();
+    var other = new Fault { Id = Guid.NewGuid(), UserId = "someone-else", IsSubmitted = true };
+    store.Add(other);
+    var service = new FaultService(store, new FaultCache(new MemoryCache(new MemoryCacheOptions())),
+        new FakeUser(), new HttpContextAccessor());
+
+    Assert.Null(service.GetFault(other.Id));
+}
+
 }
