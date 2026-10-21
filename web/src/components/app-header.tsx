@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 
 import { CURRENT_USER } from '@/lib/server/secrets';
