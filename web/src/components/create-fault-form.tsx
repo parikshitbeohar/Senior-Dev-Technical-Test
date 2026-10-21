@@ -77,7 +77,9 @@ export function CreateFaultForm() {
         )}
       </label>
 
-      <button className="m-t-1" type="submit">Save fault</button>
+      <button disabled={create.isPending} className="m-t-1" type="submit">
+        {create.isPending ? 'Saving…' : 'Save fault'}
+      </button>
 
       {create.isError && <p className="error">Save failed.</p>}
     </form>
